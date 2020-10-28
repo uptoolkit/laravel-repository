@@ -1,0 +1,13 @@
+<?php
+
+namespace DummyNamespace;
+
+use Blok\Repository\Http\Controllers\AbstractApiController;
+
+class DummyClass extends AbstractApiController
+{
+    function model()
+    {
+        return DummyRepository::class;
+    }
+}
