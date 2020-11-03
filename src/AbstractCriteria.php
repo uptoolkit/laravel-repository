@@ -12,7 +12,7 @@ use Blok\Repository\Contracts\RepositoryContract;
  *
  * @package App\Repositories
  */
-abstract class Criteria
+abstract class AbstractCriteria
 {
     /**
      * @param $model
