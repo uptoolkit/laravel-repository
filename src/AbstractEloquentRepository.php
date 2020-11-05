@@ -286,10 +286,10 @@ abstract class AbstractEloquentRepository implements RepositoryContract, Criteri
     }
 
     /**
-     * @param Criteria $criteria
+     * @param $criteria
      * @return $this
      */
-    public function getByCriteria(Criteria $criteria) {
+    public function getByCriteria($criteria) {
         $this->model = $criteria->apply($this->model, $this);
         return $this;
     }
@@ -298,7 +298,7 @@ abstract class AbstractEloquentRepository implements RepositoryContract, Criteri
      * @param Criteria $criteria
      * @return $this
      */
-    public function pushCriteria(Criteria $criteria) {
+    public function pushCriteria($criteria) {
         $this->criteria->push($criteria);
         return $this;
     }
@@ -311,7 +311,7 @@ abstract class AbstractEloquentRepository implements RepositoryContract, Criteri
             return $this;
 
         foreach($this->getCriteria() as $criteria) {
-            if($criteria instanceof Criteria)
+            if($criteria)
                 $this->model = $criteria->apply($this->model, $this);
         }
 
