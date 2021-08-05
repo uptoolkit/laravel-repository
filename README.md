@@ -105,7 +105,7 @@ class OnlyPublicCriteria extends AbstractCriteria
 {
     public $type = "public";
 
-    pubic function __construct($type = 'public'){
+    public function __construct($type = 'public'){
       $this->type = $type;
     }
 
