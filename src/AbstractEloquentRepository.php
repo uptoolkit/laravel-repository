@@ -295,7 +295,7 @@ abstract class AbstractEloquentRepository implements RepositoryContract, Criteri
     }
 
     /**
-     * @param Criteria $criteria
+     * @param $criteria
      * @return $this
      */
     public function pushCriteria($criteria) {
