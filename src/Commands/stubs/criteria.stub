@@ -6,7 +6,8 @@ use Blok\Repository\AbstractCriteria;
 
 class DummyClass extends AbstractCriteria
 {
-    public function __construct($xxx = 'xxx'){
+    public function __construct($xxx = 'xxx')
+    {
       $this->xxx = $xxx;
     }
 
