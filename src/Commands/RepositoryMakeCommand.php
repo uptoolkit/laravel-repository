@@ -53,7 +53,7 @@ class RepositoryMakeCommand extends GeneratorCommand
         if ($this->option('model')) {
             $model = $this->option('model');
         } else {
-            $modelName = "\App\\".str_replace("Repository", "", $class);
+            $modelName = "\App\\Models\\".str_replace("Repository", "", $class);
             $model = $this->ask("From which model do you want to create the repository ?", $modelName);
         }
 
