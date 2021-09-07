@@ -1,0 +1,17 @@
+<?php
+
+namespace App\Repositories\Setters;
+
+/**
+ * Common trait to define an OwnerSetter
+ *
+ * @package App\Repositories\Setters
+ */
+trait DummyClassSetter
+{
+    public static function setDummyClass($model, $data){
+        // edit to adapt
+        $model->custom = $data;
+        return $this;
+    }
+}

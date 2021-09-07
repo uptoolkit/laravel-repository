@@ -1,0 +1,16 @@
+<?php
+
+namespace App\Repositories\Getters;
+
+/**
+ * Common trait to define an DummyGetter
+ *
+ * @package App\Repositories\Getters
+ */
+trait DummySetter
+{
+    public static function getDummy($model, $data){
+        // edit to adapt
+        return $model->Dummy = $data;
+    }
+}
