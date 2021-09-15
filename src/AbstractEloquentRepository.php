@@ -34,7 +34,8 @@ abstract class AbstractEloquentRepository implements RepositoryContract, Criteri
      */
     private $modelInstance;
 
-    public function __construct(App $app = null, Collection $collection = null) {
+    public function __construct(App $app = null, Collection $collection = null)
+    {
         $this->app = $app ?: app();
         $this->criteria = $collection ?: new Collection();
         $this->resetScope();
@@ -64,7 +65,8 @@ abstract class AbstractEloquentRepository implements RepositoryContract, Criteri
         return $this->modelInstance;
     }
 
-    public function getTable(){
+    public function getTable()
+    {
         /**
          * @var $model Builder
          */
@@ -84,10 +86,11 @@ abstract class AbstractEloquentRepository implements RepositoryContract, Criteri
     /**
      * @param array $params
      * @return mixed
-     * @internal param array $columns
      * @throws \Exception
+     * @internal param array $columns
      */
-    public function all($params = ['columns' => array('*')]) {
+    public function all($params = ['columns' => array('*')])
+    {
         $params = collect(Arr::mergeWithDefaultParams($params));
         $this->applyCriteria();
         return $this->model->get($params['columns']);
@@ -99,9 +102,10 @@ abstract class AbstractEloquentRepository implements RepositoryContract, Criteri
      * @param $type
      * @return mixed
      */
-    public function getRules($type){
+    public function getRules($type)
+    {
 
-        if(isset(static::${$type . 'Rules'})){
+        if (isset(static::${$type . 'Rules'})) {
             return static::${$type . 'Rules'};
         }
 
@@ -116,7 +120,8 @@ abstract class AbstractEloquentRepository implements RepositoryContract, Criteri
      * @return mixed
      *
      */
-    public function getForm($type, $id = null){
+    public function getForm($type, $id = null)
+    {
 
         $data = [
             'rules' => [],
@@ -126,7 +131,7 @@ abstract class AbstractEloquentRepository implements RepositoryContract, Criteri
             ],
         ];
 
-        if(isset(static::${$type . 'Rules'})){
+        if (isset(static::${$type . 'Rules'})) {
             $data['rules'] = static::${$type . 'Rules'};
         }
 
@@ -139,7 +144,7 @@ abstract class AbstractEloquentRepository implements RepositoryContract, Criteri
             if ($model) {
                 $data['model'] = $model->toArray();
 
-                foreach ($model->toArray() as $key => $value){
+                foreach ($model->toArray() as $key => $value) {
 
                     $data['schema']['fields'][$key] = [
                         'value' => $value
@@ -157,7 +162,7 @@ abstract class AbstractEloquentRepository implements RepositoryContract, Criteri
 
             $fields = $this->modelInstance->getFillable();
 
-            foreach ($fields as $key){
+            foreach ($fields as $key) {
 
                 $data['schema']['fields'][$key] = [
                     'model' => $key
@@ -178,10 +183,11 @@ abstract class AbstractEloquentRepository implements RepositoryContract, Criteri
      * @param int $perPage
      * @param array $params
      * @return mixed
-     * @internal param array $columns
      * @throws \Exception
+     * @internal param array $columns
      */
-    public function paginate($perPage = 100, $params = ['columns' => array('*')]) {
+    public function paginate($perPage = 100, $params = ['columns' => array('*')])
+    {
         $params = Arr::mergeWithDefaultParams($params);
         $this->applyCriteria();
         return $this->model->paginate($perPage, $params['columns']);
@@ -191,7 +197,8 @@ abstract class AbstractEloquentRepository implements RepositoryContract, Criteri
      * @param array $data
      * @return mixed
      */
-    public function create(array $data) {
+    public function create(array $data)
+    {
         return $this->model->create($data);
     }
 
@@ -199,17 +206,18 @@ abstract class AbstractEloquentRepository implements RepositoryContract, Criteri
      * @param array $data
      * @param $id
      * @param string $attribute
-     * @throws ValidationException|\Exception
      * @return mixed
+     * @throws ValidationException|\Exception
      */
-    public function update(array $data, $id, $attribute = "id") {
+    public function update(array $data, $id, $attribute = "id")
+    {
 
         $data = array_only($data, $this->getModelInstance()->getFillable());
 
         $model = $this->model->where($attribute, '=', $id)->first();
 
         if ($model) {
-            if($model->update($data)){
+            if ($model->update($data)) {
                 return $model;
             }
         }
@@ -221,7 +229,8 @@ abstract class AbstractEloquentRepository implements RepositoryContract, Criteri
      * @param $id
      * @return mixed
      */
-    public function delete($id) {
+    public function delete($id)
+    {
         return $this->model->find($id)->destroy($id);
     }
 
@@ -230,7 +239,8 @@ abstract class AbstractEloquentRepository implements RepositoryContract, Criteri
      * @param array $columns
      * @return Model
      */
-    public function find($id, $columns = array('*')) {
+    public function find($id, $columns = array('*'))
+    {
         $this->applyCriteria();
         return $this->model->find($id, $columns);
     }
@@ -241,7 +251,8 @@ abstract class AbstractEloquentRepository implements RepositoryContract, Criteri
      * @param array $columns
      * @return mixed
      */
-    public function findBy($attribute, $value, $columns = array('*')) {
+    public function findBy($attribute, $value, $columns = array('*'))
+    {
         $this->applyCriteria();
         return $this->model->where($attribute, '=', $value)->first($columns);
     }
@@ -250,7 +261,8 @@ abstract class AbstractEloquentRepository implements RepositoryContract, Criteri
      * @return \Illuminate\Database\Eloquent\Builder
      * @throws RepositoryException
      */
-    public function makeModel() {
+    public function makeModel()
+    {
         $model = app()->make($this->model());
 
         if (!$model instanceof Model)
@@ -264,7 +276,8 @@ abstract class AbstractEloquentRepository implements RepositoryContract, Criteri
     /**
      * @return $this
      */
-    public function resetScope() {
+    public function resetScope()
+    {
         $this->skipCriteria(false);
         return $this;
     }
@@ -273,7 +286,8 @@ abstract class AbstractEloquentRepository implements RepositoryContract, Criteri
      * @param bool $status
      * @return $this
      */
-    public function skipCriteria($status = true){
+    public function skipCriteria($status = true)
+    {
         $this->skipCriteria = $status;
         return $this;
     }
@@ -281,7 +295,8 @@ abstract class AbstractEloquentRepository implements RepositoryContract, Criteri
     /**
      * @return mixed
      */
-    public function getCriteria() {
+    public function getCriteria()
+    {
         return $this->criteria;
     }
 
@@ -289,7 +304,8 @@ abstract class AbstractEloquentRepository implements RepositoryContract, Criteri
      * @param $criteria
      * @return $this
      */
-    public function getByCriteria($criteria) {
+    public function getByCriteria($criteria)
+    {
         $this->model = $criteria->apply($this->model, $this);
         return $this;
     }
@@ -298,7 +314,8 @@ abstract class AbstractEloquentRepository implements RepositoryContract, Criteri
      * @param $criteria
      * @return $this
      */
-    public function pushCriteria($criteria) {
+    public function pushCriteria($criteria)
+    {
         $this->criteria->push($criteria);
         return $this;
     }
@@ -306,13 +323,19 @@ abstract class AbstractEloquentRepository implements RepositoryContract, Criteri
     /**
      * @return $this
      */
-    public function  applyCriteria() {
-        if($this->skipCriteria === true)
+    public function applyCriteria()
+    {
+        if ($this->skipCriteria === true)
             return $this;
 
-        foreach($this->getCriteria() as $criteria) {
-            if($criteria)
-                $this->model = $criteria->apply($this->model, $this);
+        foreach ($this->getCriteria() as $criteria) {
+            if ($criteria) {
+                if ($criteria instanceof \Closure) {
+                    $this->model = $criteria($this->model, $this);
+                } else {
+                    $this->model = $criteria->apply($this->model, $this);
+                }
+            }
         }
 
         return $this;
