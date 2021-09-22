@@ -85,7 +85,7 @@ class DummyClass extends AbstractApiController
      *
      * @return \Illuminate\Http\JsonResponse|mixed
      */
-    public function update(Request $request, $id)
+    public function update($id, Request $request)
     {
         try {
             return $this->model->update($request->all(), $id);
