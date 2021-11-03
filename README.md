@@ -1,3 +1,4 @@
+
 # Blok Repository
 
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/blok/laravel-repository/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/blok/laravel-repository/?branch=master)
@@ -19,13 +20,12 @@ composer require blok/laravel-repository
 
 Blok repository is a Laravel package that will give extra functionnalities to your model and control.
 
-### Create a repository class 
-
+### Create a repository class
 ```
 php artisan make:repository UserRepository
 ```
 
-It will create a Repository class inside /app/Repositories/UserRepository : 
+It will create a Repository class inside /app/Repositories/UserRepository :
 
 ```
 <?php
@@ -44,7 +44,7 @@ class UsersRepository extends AbstractEloquentRepository
 }
 ```
 
-Without any configuration, it will handle the basic CRUD operations : 
+Without any configuration, it will handle the basic CRUD operations :
 
 - all
 - find
@@ -57,13 +57,12 @@ Without any configuration, it will handle the basic CRUD operations :
 
 Off course, you can override any of these methods and create your own inside this Repository Class
 
-###  How to use it inside your controller ? 
-
-Blok/Repository comes with a very handy an common ApiController structure. To use is you can do : 
+###  How to use it inside your controller ?
+Blok/Repository comes with a very handy an common ApiController structure. To use is you can do :
 
 ````php artisan make:apicontroller UserController````
 
-It will create an ApiController inside App/Http/Controllers/Api : 
+It will create an ApiController inside App/Http/Controllers/Api :
 
 ````
 <?php
@@ -118,7 +117,7 @@ class OnlyPublicCriteria extends AbstractCriteria
 
 ### Use it inside your Repository
 
-In your UserRepository, you can add and handle your criteria like that : 
+In your UserRepository, you can add and handle your criteria like that :
 
 ```
 public function all($columns = array('*'))
@@ -135,7 +134,7 @@ It will apply the condition of where visibility=public automatically to the $use
 
 ### Use it inside your Controller
 
-In your ControllerClass, you can inject this param like that : 
+In your ControllerClass, you can inject this param like that :
 
 ```
 <?php
@@ -168,9 +167,9 @@ class UserController extends Controller
         if(!auth()->check()){
           $this->userRepository->pushCriteria(new OnlyPublicCriteria('public'));
         }
-    
+
         $users = $this->userRepository->paginate(12, $request->all());
-        
+
         return view('users', compact('users'));
     }
 }
@@ -179,6 +178,30 @@ class UserController extends Controller
 It will have the same behavior but at the Controller level. Off course, you are free to add your variables logic when you initiate the criteria (for exemple here I push the type public for the demo).
 
 Putting this logic inside a Criteria, will help you to queue your query condition and reuse it in different Repository.
+
+### Criterias available by default:
+You have by default two criteria, they are available in the namespace Blok\Repository\Criterias.
+They each contain an argument containing your filters, here are more explanations for them.
+
+#### WhereCriteria:
+This criteria is used to filter the data coming from the source model.
+For the syntax, separate the elements with a space, you can use all the classical operators except BETWEEN which is not implemented yet. You can also use AND and OR with && and ||.
+
+Example:
+```
+$filters = "first_name = sarah || first_name = mario || first_name LIKE %deb% && email LIKE %gmail% || email LIKE %outlook% && phone != null";
+```
+
+
+#### WhereHasCriteria:
+This criteria works like WhereCriteria with the difference that it is there to filter elements of the models related to the source model.
+For the syntax it's the same as WhereCriteria but you have to put the relation for which the filters are applied followed by a "->" (without space) at the beginning of the query and after each &&.
+You can use the || but it will be applied to the filtered table (selected with "relationshipName->".
+
+Example:
+```
+$filters = "bookings->price_ht > 1000 || price_ht < 100 && socialUsers->provider = google";
+```
 
 ## Security
 
