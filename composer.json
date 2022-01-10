@@ -1,6 +1,6 @@
 {
   "name": "blok/laravel-repository",
-  "description": "Opiniated Laravel Repository helper package",
+  "description": "Opinionated Laravel Repository helper package",
   "homepage": "https://gitlab.com/cherrypulp/libraries/laravel-repository",
   "license": "MIT",
   "keywords": [
