@@ -212,7 +212,7 @@ abstract class AbstractEloquentRepository implements RepositoryContract, Criteri
     public function update(array $data, $id, $attribute = "id")
     {
 
-        $data = array_only($data, $this->getModelInstance()->getFillable());
+        $data = \Illuminate\Support\Arr::only($data, $this->getModelInstance()->getFillable());
 
         $model = $this->model->where($attribute, '=', $id)->first();
 
@@ -227,6 +227,7 @@ abstract class AbstractEloquentRepository implements RepositoryContract, Criteri
 
     /**
      * @param $id
+     * @throw Exception
      * @return mixed
      */
     public function delete($id)

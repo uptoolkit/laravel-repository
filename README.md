@@ -6,7 +6,11 @@
 [![Packagist](https://poser.pugx.org/blok/laravel-repository/d/total.svg)](https://packagist.org/packages/blok/laravel-repository)
 [![Packagist](https://img.shields.io/packagist/l/blok/laravel-repository.svg)](https://packagist.org/packages/blok/laravel-repository)
 
-An opiniated way to handle business logic with the Repository pattern. This package tends to give you an opiniated structure to handle your business logic inside the repository folder. It comes with handy helpers to let you use this repository inside your controller or api controller without the need to redefine the wheel everytimes.
+An opiniated way to handle business logic with the Repository pattern.
+
+This package tends to give you an opiniated structure to handle your business logic inside one repository folder instead of duplicating your code in Controllers, Seeders etc.
+
+It comes with handy helpers to let you use this repository inside your controller, api controller or graphql mutation without the need to redefine the wheel everytimes.
 
 ## Installation
 
@@ -58,7 +62,8 @@ Without any configuration, it will handle the basic CRUD operations :
 Off course, you can override any of these methods and create your own inside this Repository Class
 
 ###  How to use it inside your controller ?
-Blok/Repository comes with a very handy an common ApiController structure. To use is you can do :
+
+Blok/Repository comes with a very handy and common ApiController structure. To use is you can do :
 
 ````php artisan make:apicontroller UserController````
 
@@ -83,9 +88,38 @@ class UserController extends AbstractApiController
 
 This controller will handle directly the CRUD logic of your repository for more infos see AbstractApiController
 
+
+###  How to use it in Graphql ?
+
+Blok/Repository comes with a very handy and common Graphql Mutation structure. It assumes that you use [https://lighthouse-php.com/](https://lighthouse-php.com/) to handle GraphQL inside Laravel.
+
+To use is you can do :
+
+````php artisan make:mutation UserUpdateMutation````
+
+It will create a graphql mutation inside App/Graphql/Mutations :
+
+````
+<?php
+
+namespace App\GraphQL\Mutations;
+
+class UserUpdateMutation extends AbstractUpdateMutation
+{
+    function repository()
+    {
+        return \App\Repositories\UserRepository::class;
+    }
+}
+````
+
+This controller will handle directly the CRUD logic mutation for Create, Update and Delete.
+
 ### Adding a business logic with a Criteria class
 
-Off course, any methods of the AbstractClass can be overriden but sometimes you just need to add somewhere your own query logic. For that we implemented a usefull patern that will help to keep your query logic in a separated class reusable anywhere. Let's give a simple exemple for the get all methods => you want to get only public users.
+Off course, any methods of the AbstractClass can be overriden but sometimes you just need to add somewhere else your own query logic to reuse it. For that we implemented a usefull patern that will help to keep your query logic in a separated class reusable anywhere.
+
+Let's give a simple exemple for the get all methods => you want to get only public users.
 
 ### Create a Criteria
 
@@ -180,8 +214,10 @@ It will have the same behavior but at the Controller level. Off course, you are 
 Putting this logic inside a Criteria, will help you to queue your query condition and reuse it in different Repository.
 
 ### Criterias available by default:
-You have by default two criteria, they are available in the namespace Blok\Repository\Criterias.
-They each contain an argument containing your filters, here are more explanations for them.
+
+You have criterias helpers available in the namespace Blok\Repository\Criterias.
+
+They each contain an argument containing your filters, here are more explanations for some of them :
 
 #### WhereCriteria:
 This criteria is used to filter the data coming from the source model.
@@ -191,7 +227,6 @@ Example:
 ```
 $filters = "first_name = sarah || first_name = mario || first_name LIKE %deb% && email LIKE %gmail% || email LIKE %outlook% && phone != null";
 ```
-
 
 #### WhereHasCriteria:
 This criteria works like WhereCriteria with the difference that it is there to filter elements of the models related to the source model.
