@@ -4,6 +4,7 @@ namespace Blok\Repository;
 
 use Blok\Repository\Commands\ControllerApiMakeCommand;
 use Blok\Repository\Commands\CriteriaMakeCommand;
+use Blok\Repository\Commands\MutationMakeCommand;
 use Blok\Repository\Commands\RepositoryMakeCommand;
 
 class ServiceProvider extends \Illuminate\Support\ServiceProvider
@@ -15,6 +16,7 @@ class ServiceProvider extends \Illuminate\Support\ServiceProvider
                 RepositoryMakeCommand::class,
                 ControllerApiMakeCommand::class,
                 CriteriaMakeCommand::class,
+                MutationMakeCommand::class
             ]);
         }
     }
