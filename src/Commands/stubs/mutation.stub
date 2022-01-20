@@ -2,7 +2,7 @@
 
 namespace App\GraphQL\Mutations;
 
-class DummyClass extends DummyMutation {
+class DummyClass extends \DummyMutation {
     public function getRepository():string
     {
         return DummyRepository::class;
