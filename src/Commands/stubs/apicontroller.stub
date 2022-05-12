@@ -2,7 +2,10 @@
 
 namespace DummyNamespace;
 
+use Blok\Repository\AbstractEloquentRepository;
 use Blok\Repository\Http\Controllers\AbstractApiController;
+use Exception;
+use Illuminate\Http\Request;
 
 class DummyClass extends AbstractApiController
 {
@@ -12,6 +15,7 @@ class DummyClass extends AbstractApiController
     public $model;
 
     public function __construct(){
+        parent::__construct();
         $this->app = app();
         $this->makeModel();
     }
@@ -21,13 +25,13 @@ class DummyClass extends AbstractApiController
         return DummyRepository::class;
     }
 
-    /**
+        /**
      * Display a listing of the resource.
      *
      * @param Request $request
      *
      * @return mixed
-     * @throws Exception
+     * @throws Exception|\Exception
      */
     public function index(Request $request)
     {
