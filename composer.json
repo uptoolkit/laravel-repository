@@ -1,7 +1,7 @@
 {
-  "name": "blok/laravel-repository",
+  "name": "uptoolkit/laravel-repository",
   "description": "Opinionated Laravel Repository helper package",
-  "homepage": "https://gitlab.com/cherrypulp/libraries/laravel-repository",
+  "homepage": "https://github.com/uptoolkit/laravel-repository",
   "license": "MIT",
   "keywords": [
     "repository"
@@ -10,7 +10,7 @@
   "authors": [
     {
       "name": "Daniel Sum",
-      "email": "daniel@cherrypulp.com"
+      "email": "daniel@sum.consulting"
     }
   ],
   "require": {
@@ -19,8 +19,7 @@
     "blok/utils" : "*"
   },
   "require-dev": {
-    "orchestra/testbench": "~3.6.0",
-    "phpunit/phpunit": "~7.0"
+
   },
   "autoload": {
     "psr-4": {
